@@ -104,3 +104,9 @@ app.post('/api/news', upload.array('files'), async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+const db = mysql.createConnection({
+  host: 'IP_СЕРВЕРА_БД', // тот самый айпишник
+  user: 'логин_БД',
+  password: 'пароль_БД',
+  database: 'название_БД'
+});
