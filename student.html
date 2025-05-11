@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Музыкальная школа - LMS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container" id="app-container">
+        <!-- Боковое меню в виде пианино -->
+        <aside class="piano-menu">
+            <div class="logo">
+                <span class="logo-note">♫</span>
+                <h1>Муз<span>Школа</span></h1>
+            </div>
+            
+            <nav>
+                <ul class="piano-keys">
+                    <li class="white-key active" data-section="schedule">
+                        <span>Расписание</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="diary">
+                        <span>Дневник</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="white-key" data-section="homework">
+                        <span>Задания</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="grades">
+                        <span>Оценки</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="courses">
+                        <span>Курсы</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="white-key" data-section="subjects">
+                        <span>Предметы</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="progress">
+                        <span>Прогресс</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="user-profile">
+                <div class="avatar" id="user-avatar">ИК</div>
+                <div class="user-info">
+                    <span class="username" id="display-username">Иван Ковалев</span>
+                    <span class="user-role" id="display-role">Ученик • Фортепиано</span>
+                    <div class="year-progress">
+                        <span>3 год</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 42%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Основное содержимое -->
+        <main class="content-area">
+            <header class="content-header">
+                <h2 id="section-title">Расписание</h2>
+                <div class="year-selector">
+                    <select id="year-select">
+                        <option value="1">1 год</option>
+                        <option value="2">2 год</option>
+                        <option value="3" selected>3 год</option>
+                        <option value="4">4 год</option>
+                        <option value="5">5 год</option>
+                        <option value="6">6 год</option>
+                        <option value="7">7 год</option>
+                    </select>
+                </div>
+            </header>
+
+            <!-- Окно личного кабинета (изначально скрыто) -->
+            <div class="profile-modal hidden" id="profile-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Личный кабинет</h3>
+                        <span class="close-modal">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="profile-avatar">
+                            <div class="avatar-large">ИК</div>
+                            <button class="change-avatar-btn">Изменить фото</button>
+                        </div>
+                        
+                        <form class="profile-form">
+                            <div class="form-group">
+                                <label for="profile-name">Имя</label>
+                                <input type="text" id="profile-name" value="Иван Ковалев">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-email">Email</label>
+                                <input type="email" id="profile-email" value="ivan@example.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-instrument">Инструмент</label>
+                                <select id="profile-instrument">
+                                    <option value="piano" selected>Фортепиано</option>
+                                    <option value="guitar">Гитара</option>
+                                    <option value="violin">Скрипка</option>
+                                    <option value="drums">Ударные</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Уровень</label>
+                                <div class="level-display">
+                                    <span class="level-number">3</span>
+                                    <div class="level-info">
+                                        <div class="level-progress">
+                                            <div class="level-bar" style="width: 42%;"></div>
+                                        </div>
+                                        <span class="level-text">Следующий уровень: 1 сентября 2024</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="save-btn">Сохранить изменения</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Основные секции контента -->
+            <div class="content-section" id="schedule-section">
+                <!-- Расписание в виде нотного стана -->
+                <div class="staff-schedule">
+                    <div class="staff-lines"></div>
+                    <div class="schedule-items">
+                        <div class="schedule-item" data-day="1">
+                            <div class="note-head"></div>
+                            <div class="note-stem"></div>
+                            <div class="item-details">
+                                <span class="item-time">09:00 - 10:30</span>
+                                <h3 class="item-title">Сольфеджио</h3>
+                                    <span class="item-teacher">Преп. Петрова А.И.</span>
+                                <span class="item-room">Каб. 12</span>
+                            </div>
+                        </div>
+                        <div class="schedule-item" data-day="1" style="top: 100px;">
+                            <div class="note-head"></div>
+                            <div class="note-stem"></div>
+                            <div class="item-details">
+                                <span class="item-time">11:00 - 12:30</span>
+                                <h3 class="item-title">Специальность (фортепиано)</h3>
+                                <span class="item-teacher">Преп. Иванова М.С.</span>
+                                <span class="item-room">Каб. 5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="diary-section">
+                <div class="diary-content">
+                    <h3>Электронный дневник</h3>
+                    <div class="diary-entries">
+                        <div class="diary-entry">
+                            <div class="entry-date">15.05.2023</div>
+                            <div class="entry-content">
+                                <h4>Тема занятия: Основы гармонии</h4>
+                                <p>Изучали построение трезвучий и их обращения. Разобрали примеры из произведений Моцарта и Бетховена.</p>
+                                <div class="entry-meta">
+                                    <span>Преподаватель: Петрова А.И.</span>
+                                    <span>Отделение: Фортепиано</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="homework-section">
+                <div class="homework-content">
+                    <h3>Домашние задания</h3>
+                    <div class="homework-list">
+                        <div class="homework-item">
+                            <div class="hw-subject">Сольфеджио</div>
+                            <div class="hw-content">
+                                <h4>Домашнее задание</h4>
+                                <p>1. Построить трезвучия от звуков: c, e, g, b.<br>
+                                2. Определить вид трезвучий в данных примерах.<br>
+                                3. Подготовиться к письменной работе.</p>
+                                <div class="hw-meta">
+                                    <span>Срок сдачи: 20.05.2023</span>
+                                    <span>Преподаватель: Петрова А.И.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="grades-section">
+                <div class="grades-content">
+                    <h3>Успеваемость</h3>
+                    <div class="grades-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Предмет</th>
+                                    <th>1 семестр</th>
+                                    <th>2 семестр</th>
+                                    <th>Годовая</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Сольфеджио</td>
+                                    <td><span class="grade-circle grade-5">5</span></td>
+                                    <td><span class="grade-circle grade-4">4</span></td>
+                                    <td><span class="grade-circle grade-5">5</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Фортепиано</td>
+                                    <td><span class="grade-circle grade-4">4</span></td>
+                                    <td><span class="grade-circle grade-5">5</span></td>
+                                    <td><span class="grade-circle grade-5">5</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Музыкальная литература</td>
+                                    <td><span class="grade-circle grade-4">4</span></td>
+                                    <td><span class="grade-circle grade-4">4</span></td>
+                                    <td><span class="grade-circle grade-4">4</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Хор</td>
+                                    <td><span class="grade-circle grade-5">5</span></td>
+                                    <td><span class="grade-circle grade-5">5</span></td>
+                                    <td><span class="grade-circle grade-5">5</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="courses-section">
+                <div class="courses-content">
+                    <h3>Доступные курсы</h3>
+                    <div class="courses-grid">
+                        <div class="course-card">
+                            <div class="course-header" style="background-color: #5E35B1;">
+                                <h4>Основы музыкальной теории</h4>
+                                <span class="course-year">1-2 год</span>
+                            </div>
+                            <div class="course-body">
+                                <p>Изучение нотной грамоты, ритма, интервалов и аккордов.</p>
+                                <div class="course-meta">
+                                    <span>Преподаватель: Петрова А.И.</span>
+                                    <span class="course-status active">В процессе</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="subjects-section">
+                <div class="subjects-content">
+                    <h3>Предметы по годам обучения</h3>
+                    <div class="subjects-tabs">
+                        <div class="tab-buttons">
+                            <button class="tab-btn active" data-year="1">1 год</button>
+                            <button class="tab-btn" data-year="2">2 год</button>
+                            <button class="tab-btn" data-year="3">3 год</button>
+                        </div>
+                        
+                        <div class="tab-content active" data-year="1">
+                            <h4>Предметы 1 года обучения</h4>
+                            <ul class="subject-list">
+                                <li>
+                                    <span class="subject-name">Специальность (фортепиано)</span>
+                                    <span class="subject-hours">2 часа/нед</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="progress-section">
+                <div class="progress-content">
+                    <h3>Ваш прогресс обучения</h3>
+                    <div class="progress-visualization">
+                        <div class="progress-years">
+                            <div class="year completed">
+                                <div class="year-number">1</div>
+                                <div class="year-status">Завершён</div>
+                                <div class="year-gpa">Средний балл: 4.8</div>
+                            </div>
+                            <div class="year completed">
+                                <div class="year-number">2</div>
+                                <div class="year-status">Завершён</div>
+                                <div class="year-gpa">Средний балл: 4.6</div>
+                            </div>
+                            <div class="year current">
+                                <div class="year-number">3</div>
+                                <div class="year-status">Текущий</div>
+                                <div class="year-progress-bar">
+                                    <div class="progress" style="width: 65%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обработчик для меню
+            const menuItems = document.querySelectorAll('.white-key');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Удаляем активные классы
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                        section.classList.add('hidden');
+                    });
+                    
+                    // Добавляем активный класс
+                    this.classList.add('active');
+                    
+                    // Показываем нужную секцию
+                    const sectionId = this.dataset.section + '-section';
+                    const targetSection = document.getElementById(sectionId);
+                    
+                    if (targetSection) {
+                        targetSection.classList.remove('hidden');
+                        targetSection.classList.add('active');
+                        document.getElementById('section-title').textContent = 
+                            this.querySelector('span').textContent;
+                    }
+                });
+            });
+
+            // Активируем первый пункт по умолчанию
+            if (menuItems.length > 0) {
+                menuItems[0].click();
+            }
+
+            // Обработчики для личного кабинета
+            const avatar = document.getElementById('user-avatar');
+            const username = document.getElementById('display-username');
+            const profileModal = document.getElementById('profile-modal');
+            const closeModal = document.querySelector('.close-modal');
+
+            // Открытие модального окна
+            avatar.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileModal.classList.remove('hidden');
+            });
+            
+            username.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileModal.classList.remove('hidden');
+            });
+
+            // Закрытие модального окна
+            closeModal.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileModal.classList.add('hidden');
+            });
+            
+            // Закрытие при клике вне модального окна
+            window.addEventListener('click', function(event) {
+                if (event.target === profileModal) {
+                    profileModal.classList.add('hidden');
+                }
+            });
+
+            // Обработчик формы
+            const profileForm = document.querySelector('.profile-form');
+            profileForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Здесь можно добавить сохранение данных
+                alert('Изменения сохранены!');
+                profileModal.classList.add('hidden');
+                
+                // Обновляем данные в профиле
+                const newName = document.getElementById('profile-name').value;
+                document.getElementById('display-username').textContent = newName;
+                
+                const instrument = document.getElementById('profile-instrument');
+                const instrumentText = instrument.options[instrument.selectedIndex].text;
+                document.getElementById('display-role').textContent = `Ученик • ${instrumentText}`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МузШкола - Администратор</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="piano-menu">
+            <div class="logo">
+                <span class="logo-note">♫</span>
+                <h1>Муз<span>Школа</span></h1>
+            </div>
+            
+            <nav>
+                <ul class="piano-keys">
+                    <li class="white-key active" data-section="dashboard">
+                        <span>Главная</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="students">
+                        <span>Ученики</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="white-key" data-section="teachers">
+                        <span>Преподаватели</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="performance">
+                        <span>Успеваемость</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="white-key" data-section="settings">
+                        <span>Настройки</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="user-profile">
+                <div class="avatar" id="user-avatar">АА</div>
+                <div class="user-info">
+                    <span class="username" id="display-username">Алексей Админ</span>
+                    <span class="user-role" id="display-role">Администратор</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <header class="content-header">
+                <h2 id="section-title">Главная панель</h2>
+                <div class="admin-actions">
+                    <button class="action-btn export-btn">
+                        <i class="fas fa-file-export"></i> Экспорт данных
+                    </button>
+                    <button class="action-btn logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Выйти
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-section" id="dashboard-section">
+                <div class="admin-stats">
+                    <div class="stat-card wide">
+                        <div class="stat-value">127</div>
+                        <div class="stat-label">Всего учеников</div>
+                        <div class="stat-trend up">+5 за месяц</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">4.3</div>
+                        <div class="stat-label">Средний балл</div>
+                        <div class="stat-trend up">+0.2</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Преподавателей</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">89%</div>
+                        <div class="stat-label">Посещаемость</div>
+                        <div class="stat-trend down">-3%</div>
+                    </div>
+                </div>
+                
+                <div class="admin-charts">
+                    <div class="chart-container">
+                        <h3>Успеваемость по отделениям</h3>
+                        <canvas id="department-chart"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>Активность преподавателей</h3>
+                        <canvas id="teachers-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="students-section">
+                <div class="admin-toolbar">
+                    <div class="search-box">
+                        <input type="text" placeholder="Поиск учеников...">
+                        <button class="search-btn">Найти</button>
+                    </div>
+                    <button class="action-btn add-btn">Добавить ученика</button>
+                </div>
+                
+                <div class="students-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ФИО</th>
+                                <th>Отделение</th>
+                                <th>Год обучения</th>
+                                <th>Средний балл</th>
+                                <th>Посещаемость</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Иванов Петр Сергеевич</td>
+                                <td>Фортепиано</td>
+                                <td>3</td>
+                                <td>
+                                    <div class="progress-grade">
+                                        <span>4.5</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 90%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>92%</td>
+                                <td>
+                                    <button class="table-btn view-btn">Просмотр</button>
+                                    <button class="table-btn edit-btn">Изменить</button>
+                                </td>
+                            </tr>
+                            <!-- Другие ученики -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <button class="page-btn">1</button>
+                    <button class="page-btn active">2</button>
+                    <button class="page-btn">3</button>
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="teachers-section">
+                <div class="admin-toolbar">
+                    <div class="search-box">
+                        <input type="text" placeholder="Поиск преподавателей...">
+                        <button class="search-btn">Найти</button>
+                    </div>
+                    <button class="action-btn add-btn">Добавить преподавателя</button>
+                </div>
+                
+                <div class="teachers-grid">
+                    <div class="teacher-card">
+                        <div class="teacher-avatar">ПИ</div>
+                        <div class="teacher-info">
+                            <h4>Петрова Ирина Владимировна</h4>
+                            <span class="teacher-department">Фортепиано</span>
+                            <div class="teacher-stats">
+                                <div class="stat-item">
+                                    <span class="stat-value">4.7</span>
+                                    <span class="stat-label">Ср. балл</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value">15</span>
+                                    <span class="stat-label">Учеников</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="teacher-actions">
+                            <button class="table-btn view-btn">Подробнее</button>
+                        </div>
+                    </div>
+                    <!-- Другие преподаватели -->
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="performance-section">
+                <div class="performance-filters">
+                    <div class="filter-group">
+                        <label for="perf-department">Отделение:</label>
+                        <select id="perf-department">
+                            <option value="all">Все</option>
+                            <option value="piano">Фортепиано</option>
+                            <option value="wind">Духовые</option>
+                            <option value="drums">Ударные</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="perf-year">Год обучения:</label>
+                        <select id="perf-year">
+                            <option value="all">Все</option>
+                            <option value="1">1 год</option>
+                            <option value="2">2 год</option>
+                            <!-- Другие года -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="perf-period">Период:</label>
+                        <select id="perf-period">
+                            <option value="month">За месяц</option>
+                            <option value="semester">За семестр</option>
+                            <option value="year">За год</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="performance-chart-container">
+                    <canvas id="performance-chart"></canvas>
+                </div>
+                
+                <div class="performance-table-container">
+                    <table class="performance-table">
+                        <thead>
+                            <tr>
+                                <th>Показатель</th>
+                                <th>Фортепиано</th>
+                                <th>Духовые</th>
+                                <th>Ударные</th>
+                                <th>Общий</th>
+                                <th>Изменение</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Средний балл</td>
+                                <td>4.5</td>
+                                <td>4.2</td>
+                                <td>4.3</td>
+                                <td>4.4</td>
+                                <td><span class="trend up">↑ 0.2</span></td>
+                            </tr>
+                            <tr>
+                                <td>Посещаемость</td>
+                                <td>92%</td>
+                                <td>88%</td>
+                                <td>90%</td>
+                                <td>90%</td>
+                                <td><span class="trend down">↓ 1%</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

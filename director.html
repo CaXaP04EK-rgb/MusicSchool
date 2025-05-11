@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МузШкола - Директор</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Стили из оригинального файла */
+        .content-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .content-header h2 {
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            font-size: 28px;
+            color: var(--dark-color);
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+        }
+        
+        .action-btn:hover {
+            background-color: #3a6288;
+        }
+        
+        .export-btn {
+            background-color: var(--success-color);
+        }
+        
+        .export-btn:hover {
+            background-color: #219653;
+        }
+        
+        .add-btn {
+            background-color: var(--secondary-color);
+        }
+        
+        .add-btn:hover {
+            background-color: #4c8fd8;
+        }
+        
+        /* Секции контента */
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        /* Карточки статистики */
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .stat-card.wide {
+            grid-column: span 2;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .stat-trend {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .stat-trend.up {
+            color: var(--success-color);
+        }
+        
+        .stat-trend.down {
+            color: var(--danger-color);
+        }
+        
+        /* Графики */
+        .admin-charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .chart-container h3 {
+            margin-top: 0;
+            font-size: 18px;
+            color: var(--dark-color);
+        }
+        
+        /* Финансовые отчеты (новый блок) */
+        .finance-reports {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .report-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .filter-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #7f8c8d;
+        }
+        
+        .filter-group select, .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        .finance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .finance-table th, .finance-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .finance-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .income {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+        
+        .expense {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+        
+        /* Учебные планы (новый блок) */
+        .study-plans {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .plans-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .plan-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.3s;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .plan-card h4 {
+            margin-top: 0;
+            color: var(--dark-color);
+        }
+        
+        .plan-meta {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin: 10px 0;
+        }
+        
+        .plan-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .plan-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Таблицы для учеников и преподавателей */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .data-table .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+            
+        .user-info-cell {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+        }
+        
+        .user-email {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Пагинация */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .page-btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .page-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* Настройки */
+        .settings-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .settings-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .settings-card h3 {
+            margin-top: 0;
+            font-size: 18px;
+            color: var(--dark-color);
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .save-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .save-btn:hover {
+            background-color: #219653;
+        }
+        
+        /* Модальные окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 20px;
+            color: var(--dark-color);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .modal-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .admin-stats, .admin-charts, .plans-list, .settings-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-card.wide {
+                grid-column: span 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .piano-menu {
+                width: 100%;
+                flex-direction: row;
+                padding: 10px 0;
+            }
+            
+            .logo {
+                padding: 0 20px;
+                border-bottom: none;
+                border-right: 1px solid #3d5166;
+                display: flex;
+                align-items: center;
+            }
+            
+            .logo-note {
+                display: inline;
+                margin-right: 10px;
+                margin-bottom: 0;
+            }
+            
+            nav {
+                flex: 1;
+                overflow-x: auto;
+            }
+            
+            .piano-keys {
+                display: flex;
+                margin: 0;
+            }
+            
+            .white-key {
+                padding: 10px 15px;
+                white-space: nowrap;
+            }
+            
+            .black-key {
+                display: none;
+            }
+            
+            .user-profile {
+                padding: 0 20px;
+                border-top: none;
+                border-left: 1px solid #3d5166;
+            }
+        }
+        
+        /* Переменные цветов */
+        :root {
+            --primary-color: #2E1A47;
+            --secondary-color: #FFD700;
+            --success-color: #27AE60;
+            --danger-color: #E53935;
+            --dark-color: #2D3436;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="piano-menu">
+            <div class="logo">
+                <span class="logo-note">♫</span>
+                <h1>Муз<span>Школа</span></h1>
+            </div>
+            
+            <nav>
+                <ul class="piano-keys">
+                    <li class="white-key active" data-section="dashboard">
+                        <span>Главная</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="students">
+                        <span>Ученики</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="white-key" data-section="teachers">
+                        <span>Преподаватели</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="finance">
+                        <span>Финансы</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="white-key" data-section="plans">
+                        <span>Учебные планы</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="analytics">
+                        <span>Аналитика</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="white-key" data-section="settings">
+                        <span>Настройки</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="user-profile">
+                <div class="avatar">ДИ</div>
+                <div class="user-info">
+                    <span class="username">Директор Иванов</span>
+                    <span class="user-role">Директор</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <!-- Главная панель -->
+            <div id="dashboard-section" class="content-section active">
+                <header class="content-header">
+                    <h2>Главная панель</h2>
+                    <div class="admin-actions">
+                        <button class="action-btn export-btn">Экспорт данных</button>
+                        <button class="action-btn">Быстрый отчет</button>
+                    </div>
+                </header>
+
+                <div class="admin-stats">
+                    <div class="stat-card wide">
+                        <div class="stat-value">1,240,500 </div>
+                        <div class="stat-label">Общий доход за год</div>
+                        <div class="stat-trend up">+8% за квартал</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">247</div>
+                        <div class="stat-label">Всего учеников</div>
+                        <div class="stat-trend up">+12 за месяц</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Преподавателей</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">4.3</div>
+                        <div class="stat-label">Средний балл</div>
+                        <div class="stat-trend up">+0.2</div>
+                    </div>
+                </div>
+                
+                <div class="admin-charts">
+                    <div class="chart-container">
+                        <h3>Финансовые показатели</h3>
+                        <div id="finance-chart" style="height: 300px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; color: #7f8c8d;">
+                            График доходов и расходов
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>Успеваемость по отделениям</h3>
+                        <div id="performance-chart" style="height: 300px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; color: #7f8c8d;">
+                            График успеваемости
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finance-reports">
+                    <h3>Последние финансовые операции</h3>
+                    <div class="report-filters">
+                        <div class="filter-group">
+                            <label for="report-period">Период:</label>
+                            <select id="report-period">
+                                <option>Последние 30 дней</option>
+                                <option>Этот месяц</option>
+                                <option>Этот квартал</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="report-type">Тип операции:</label>
+                            <select id="report-type">
+                                <option>Все</option>
+                                <option>Доходы</option>
+                                <option>Расходы</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="finance-table">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Описание</th>
+                                <th>Категория</th>
+                                <th>Сумма</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>15.05.2023</td>
+                                <td>Оплата за обучение (Иванов П.)</td>
+                                <td>Обучение</td>
+                                <td class="income">+8,500 </td>
+                                <td>Завершено</td>
+                            </tr>
+                            <tr>
+                                <td>14.05.2023</td>
+                                <td>Покупка нотных сборников</td>
+                                <td>Материалы</td>
+                                <td class="expense">-12,300 </td>
+                                <td>Завершено</td>
+                            </tr>
+                            <tr>
+                                <td>10.05.2023</td>
+                                <td>Зарплата преподавателям</td>
+                                <td>Зарплата</td>
+                                <td class="expense">-320,000 </td>
+                                <td>В процессе</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Ученики (новый раздел) -->
+            <div id="students-section" class="content-section">
+                <header class="content-header">
+                    <h2>Ученики</h2>
+                    <div class="admin-actions">
+                        <button class="action-btn export-btn">Экспорт списка</button>
+                        <button class="action-btn add-btn" id="add-student-btn">Добавить ученика</button>
+                    </div>
+                </header>
+                
+                <div class="report-filters">
+                    <div class="filter-group">
+                        <label for="student-department">Отделение:</label>
+                        <select id="student-department">
+                            <option>Все</option>
+                            <option>Фортепиано</option>
+                            <option>Струнные</option>
+                            <option>Духовые</option>
+                            <option>Ударные</option>
+                            <option>Теория музыки</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="student-year">Год обучения:</label>
+                        <select id="student-year">
+                            <option>Все</option>
+                            <option>1 год</option>
+                            <option>2 год</option>
+                            <option>3 год</option>
+                            <option>4 год</option>
+                            <option>5 год</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="student-status">Статус:</label>
+                        <select id="student-status">
+                            <option>Все</option>
+                            <option>Активные</option>
+                            <option>Отчисленные</option>
+                            <option>Академический отпуск</option>
+                        </select>
+                    </div>
+                    <div class="filter-group" style="flex-grow: 1;">
+                        <label for="student-search">Поиск:</label>
+                        <input type="text" id="student-search" placeholder="Имя, фамилия или email...">
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Ученик</th>
+                            <th>Отделение</th>
+                            <th>Год обучения</th>
+                            <th>Средний балл</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="students-table-body">
+                        <!-- Данные будут загружены из JavaScript -->
+                    </tbody>
+                </table>
+                
+                <div class="pagination">
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">5</button>
+                </div>
+            </div>
+
+            <!-- Преподаватели (новый раздел) -->
+            <div id="teachers-section" class="content-section">
+                <header class="content-header">
+                    <h2>Преподаватели</h2>
+                    <div class="admin-actions">
+                        <button class="action-btn export-btn">Экспорт списка</button>
+                        <button class="action-btn add-btn" id="add-teacher-btn">Добавить преподавателя</button>
+                    </div>
+                </header>
+                
+                <div class="report-filters">
+                    <div class="filter-group">
+                        <label for="teacher-department">Отделение:</label>
+                        <select id="teacher-department">
+                            <option>Все</option>
+                            <option>Фортепиано</option>
+                            <option>Струнные</option>
+                            <option>Духовые</option>
+                            <option>Ударные</option>
+                            <option>Теория музыки</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="teacher-experience">Опыт работы:</label>
+                        <select id="teacher-experience">
+                            <option>Все</option>
+                            <option>До 5 лет</option>
+                            <option>5-10 лет</option>
+                            <option>10-20 лет</option>
+                            <option>Более 20 лет</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="teacher-status">Статус:</label>
+                        <select id="teacher-status">
+                            <option>Все</option>
+                            <option>Активные</option>
+                            <option>В отпуске</option>
+                            <option>Уволенные</option>
+                        </select>
+                    </div>
+                    <div class="filter-group" style="flex-grow: 1;">
+                        <label for="teacher-search">Поиск:</label>
+                        <input type="text" id="teacher-search" placeholder="Имя, фамилия или email...">
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Преподаватель</th>
+                            <th>Отделение</th>
+                            <th>Специализация</th>
+                            <th>Учеников</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teachers-table-body">
+                        <!-- Данные будут загружены из JavaScript -->
+                    </tbody>
+                </table>
+                
+                <div class="pagination">
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                </div>
+            </div>
+
+            <!-- Финансы -->
+            <div id="finance-section" class="content-section">
+                <header class="content-header">
+                    <h2>Финансовые отчеты</h2>
+                    <div class="admin-actions">
+                        <button class="action-btn export-btn">Экспорт в Excel</button>
+                        <button class="action-btn add-btn">Добавить операцию</button>
+                    </div>
+                </header>
+                
+                <div class="finance-reports">
+                    <div class="report-filters">
+                        <div class="filter-group">
+                            <label for="finance-year">Год:</label>
+                            <select id="finance-year">
+                                <option>2023</option>
+                                <option>2022</option>
+                                <option>2021</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="finance-month">Месяц:</label>
+                            <select id="finance-month">
+                                <option>Все</option>
+                                <option>Январь</option>
+                                <option>Февраль</option>
+                                <!-- ... -->
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="finance-category">Категория:</label>
+                            <select id="finance-category">
+                                <option>Все</option>
+                                <option>Обучение</option>
+                                <option>Зарплата</option>
+                                <option>Ремонт</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-charts">
+                        <div class="chart-container" style="grid-column: span 2;">
+                            <h3>Финансовый отчет за 2023 год</h3>
+                            <div style="height: 400px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; color: #7f8c8d;">
+                                Детальный финансовый график
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <table class="finance-table">
+                        <thead>
+                            <tr>
+                                <th>Период</th>
+                                <th>Доходы</th>
+                                <th>Расходы</th>
+                                <th>Прибыль</th>
+                                <th>% от плана</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Январь 2023</td>
+                                <td class="income">450,200 </td>
+                                <td class="expense">-380,500 </td>
+                                <td class="income">69,700 </td>
+                                <td>92%</td>
+                            </tr>
+                            <tr>
+                                <td>Февраль 2023</td>
+                                <td class="income">480,750 </td>
+                                <td class="expense">-395,200 </td>
+                                <td class="income">85,550 </td>
+                                <td>105%</td>
+                            </tr>
+                            <!-- ... -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Учебные планы -->
+            <div id="plans-section" class="content-section">
+                <header class="content-header">
+                    <h2>Учебные планы</h2>
+                    <div class="admin-actions">
+                        <button class="action-btn export-btn">Экспорт</button>
+                        <button class="action-btn add-btn">Создать план</button>
+                    </div>
+                </header>
+                
+                <div class="study-plans">
+                    <div class="report-filters">
+                        <div class="filter-group">
+                            <label for="plan-department">Отделение:</label>
+                            <select id="plan-department">
+                                <option>Все</option>
+                                <option>Фортепиано</option>
+                                <option>Струнные</option>
+                                <option>Духовые</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="plan-year">Год обучения:</label>
+                            <select id="plan-year">
+                                <option>Все</option>
+                                <option>1 год</option>
+                                <option>2 год</option>
+                                <!-- ... -->
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="plan-status">Статус:</label>
+                            <select id="plan-status">
+                                <option>Все</option>
+                                <option>На утверждении</option>
+                                <option>Утвержден</option>
+                                <option>Архив</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="plans-list">
+                        <div class="plan-card">
+                            <h4>Программа по фортепиано (1 год)</h4>
+                            <div class="plan-meta">
+                                <span>Отделение: Фортепиано</span><br>
+                                <span>Автор: Петрова И.В.</span><br>
+                                <span>Дата: 15.03.2023</span>
+                            </div>
+                            <span class="plan-status status-pending">На утверждении</span>
+                            <div class="plan-actions">
+                                <button class="action-btn" style="padding: 5px 10px; font-size: 12px;">Просмотр</button>
+                                <button class="action-btn" style="padding: 5px 10px; font-size: 12px; background-color: var(--success-color);">Утвердить</button>
+                            </div>
+                        </div>
+                        
+                        <div class="plan-card">
+                            <h4>Программа по скрипке (2 год)</h4>
+                            <div class="plan-meta">
+                                <span>Отделение: Струнные</span><br>
+                                <span>Автор: Сидоров А.М.</span><br>
+                                <span>Дата: 10.02.2023</span>
+                            </div>
+                            <span class="plan-status status-approved">Утвержден</span>
+                            <div class="plan-actions">
+                                <button class="action-btn" style="padding: 5px 10px; font-size: 12px;">Просмотр</button>
+                                <button class="action-btn" style="padding: 5px 10px; font-size: 12px;">Архив</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Другие планы -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Настройки (новый раздел) -->
+            <div id="settings-section" class="content-section">
+                <header class="content-header">
+                    <h2>Настройки</h2>
+                    <div class="admin-actions">
+                        <button class="action-btn" id="reset-settings-btn">Сбросить</button>
+                        <button class="action-btn save-btn" id="save-settings-btn">Сохранить изменения</button>
+                    </div>
+                </header>
+                
+                <div class="settings-container">
+                    <div class="settings-card">
+                        <h3>Общие настройки</h3>
+                        <div class="form-group">
+                            <label for="school-name">Название школы:</label>
+                            <input type="text" id="school-name" value="Музыкальная школа №1">
+                        </div>
+                        <div class="form-group">
+                            <label for="school-address">Адрес:</label>
+                            <input type="text" id="school-address" value="г. Москва, ул. Музыкальная, д. 123">
+                        </div>
+                        <div class="form-group">
+                            <label for="school-phone">Телефон:</label>
+                            <input type="text" id="school-phone" value="+7 (495) 123-45-67">
+                        </div>
+                        <div class="form-group">
+                            <label for="school-email">Email:</label>
+                            <input type="email" id="school-email" value="info@muzschool.ru">
+                        </div>
+                        <div class="form-group">
+                            <label for="school-website">Веб-сайт:</label>
+                            <input type="text" id="school-website" value="www.muzschool.ru">
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3>Настройки системы</h3>
+                        <div class="form-group">
+                            <label for="academic-year">Текущий учебный год:</label>
+                            <select id="academic-year">
+                                <option>2022-2023</option>
+                                <option selected>2023-2024</option>
+                                <option>2024-2025</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="grading-system">Система оценок:</label>
+                            <select id="grading-system">
+                                <option selected>5-балльная</option>
+                                <option>10-балльная</option>
+                                <option>100-балльная</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="notifications">Уведомления:</label>
+                            <select id="notifications">
+                                <option selected>Включены</option>
+                                <option>Только важные</option>
+                                <option>Отключены</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="backup-frequency">Частота резервного копирования:</label>
+                            <select id="backup-frequency">
+                                <option>Ежедневно</option>
+                                <option selected>Еженедельно</option>
+                                <option>Ежемесячно</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3>Настройки профиля</h3>
+                        <div class="form-group">
+                            <label for="user-name">Имя:</label>
+                            <input type="text" id="user-name" value="Директор Иванов">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-email">Email:</label>
+                            <input type="email" id="user-email" value="director@muzschool.ru">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-password">Новый пароль:</label>
+                            <input type="password" id="user-password" placeholder="Введите новый пароль">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-password-confirm">Подтверждение пароля:</label>
+                            <input type="password" id="user-password-confirm" placeholder="Подтвердите новый пароль">
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3>Отделения</h3>
+                        <div class="form-group">
+                            <label for="departments">Список отделений:</label>
+                            <textarea id="departments">Фортепиано
+Струнные
+Духовые
+Ударные
+Теория музыки</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="default-department">Отделение по умолчанию:</label>
+                            <select id="default-department">
+                                <option selected>Фортепиано</option>
+                                <option>Струнные</option>
+                                <option>Духовые</option>
+                                <option>Ударные</option>
+                                <option>Теория музыки</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="student-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить ученика</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="student-fullname">ФИО:</label>
+                <input type="text" id="student-fullname" placeholder="Введите ФИО ученика">
+            </div>
+            <div class="form-group">
+                <label for="student-email">Email:</label>
+                <input type="email" id="student-email" placeholder="Введите email">
+            </div>
+            <div class="form-group">
+                <label for="student-phone">Телефон:</label>
+                <input type="text" id="student-phone" placeholder="Введите телефон">
+            </div>
+            <div class="form-group">
+                <label for="student-birthdate">Дата рождения:</label>
+                <input type="date" id="student-birthdate">
+            </div>
+            <div class="form-group">
+                <label for="student-dept">Отделение:</label>
+                <select id="student-dept">
+                    <option>Фортепиано</option>
+                    <option>Струнные</option>
+                    <option>Духовые</option>
+                    <option>Ударные</option>
+                    <option>Теория музыки</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="student-year">Год обучения:</label>
+                <select id="student-year-select">
+                    <option>1 год</option>
+                    <option>2 год</option>
+                    <option>3 год</option>
+                    <option>4 год</option>
+                    <option>5 год</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn" id="cancel-student-btn">Отмена</button>
+                <button class="action-btn save-btn" id="save-student-btn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="teacher-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить преподавателя</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="teacher-fullname">ФИО:</label>
+                <input type="text" id="teacher-fullname" placeholder="Введите ФИО преподавателя">
+            </div>
+            <div class="form-group">
+                <label for="teacher-email">Email:</label>
+                <input type="email" id="teacher-email" placeholder="Введите email">
+            </div>
+            <div class="form-group">
+                <label for="teacher-phone">Телефон:</label>
+                <input type="text" id="teacher-phone" placeholder="Введите телефон">
+            </div>
+            <div class="form-group">
+                <label for="teacher-dept">Отделение:</label>
+                <select id="teacher-dept">
+                    <option>Фортепиано</option>
+                    <option>Струнные</option>
+                    <option>Духовые</option>
+                    <option>Ударные</option>
+                    <option>Теория музыки</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="teacher-specialization">Специализация:</label>
+                <input type="text" id="teacher-specialization" placeholder="Введите специализацию">
+            </div>
+            <div class="form-group">
+                <label for="teacher-experience">Опыт работы (лет):</label>
+                <input type="number" id="teacher-experience-input" min="0" max="50" value="0">
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn" id="cancel-teacher-btn">Отмена</button>
+                <button class="action-btn save-btn" id="save-teacher-btn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        class DirectorDashboard {
+            constructor() {
+                this.initCharts();
+                this.setupEventListeners();
+                this.loadStudents();
+                this.loadTeachers();
+            }
+
+            initCharts() {
+                // Финансовый график
+                const financeCtx = document.createElement('canvas');
+                financeCtx.id = 'finance-chart-canvas';
+                const financeChartContainer = document.getElementById('finance-chart');
+                financeChartContainer.innerHTML = '';
+                financeChartContainer.appendChild(financeCtx);
+                
+                new Chart(financeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+                        datasets: [
+                            {
+                                label: 'Доходы',
+                                data: [450, 480, 520, 490, 510, 550, 500, 530, 570, 600, 580, 620],
+                                backgroundColor: '#27AE60',
+                                borderColor: '#27AE60',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Расходы',
+                                data: [380, 395, 410, 400, 420, 430, 440, 450, 460, 470, 480, 490],
+                                backgroundColor: '#E53935',
+                                borderColor: '#E53935',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Тысячи рублей'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // График успеваемости
+                const performanceCtx = document.createElement('canvas');
+                performanceCtx.id = 'performance-chart-canvas';
+                const performanceChartContainer = document.getElementById('performance-chart');
+                performanceChartContainer.innerHTML = '';
+                performanceChartContainer.appendChild(performanceCtx);
+                
+                new Chart(performanceCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Фортепиано', 'Струнные', 'Духовые', 'Ударные', 'Теория'],
+                        datasets: [{
+                            label: 'Средний балл',
+                            data: [4.5, 4.2, 4.0, 4.3, 4.7],
+                            backgroundColor: 'rgba(46, 26, 71, 0.2)',
+                            borderColor: '#2E1A47',
+                            pointBackgroundColor: '#2E1A47',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#2E1A47'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    display: true
+                                },
+                                suggestedMin: 3,
+                                suggestedMax: 5
+                            }
+                        }
+                    }
+                });
+            }
+
+            setupEventListeners() {
+                // Переключение между разделами
+                document.querySelectorAll('.white-key').forEach(key => {
+                    key.addEventListener('click', () => {
+                        const sectionId = key.getAttribute('data-section');
+                        this.showSection(sectionId);
+                        
+                        // Обновляем активное состояние кнопок меню
+                        document.querySelectorAll('.white-key').forEach(k => {
+                            k.classList.remove('active');
+                        });
+                        key.classList.add('active');
+                    });
+                });
+
+                // Модальные окна
+                document.getElementById('add-student-btn').addEventListener('click', () => {
+                    this.showModal('student-modal');
+                });
+
+                document.getElementById('add-teacher-btn').addEventListener('click', () => {
+                    this.showModal('teacher-modal');
+                });
+
+                document.querySelectorAll('.close-modal').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.hideAllModals();
+                    });
+                });
+
+                document.getElementById('cancel-student-btn').addEventListener('click', () => {
+                    this.hideAllModals();
+                });
+
+                document.getElementById('cancel-teacher-btn').addEventListener('click', () => {
+                    this.hideAllModals();
+                });
+
+                // Сохранение данных
+                document.getElementById('save-student-btn').addEventListener('click', () => {
+                    this.addStudent();
+                    this.hideAllModals();
+                });
+
+                document.getElementById('save-teacher-btn').addEventListener('click', () => {
+                    this.addTeacher();
+                    this.hideAllModals();
+                });
+
+                // Фильтрация
+                document.getElementById('student-search').addEventListener('input', (e) => {
+                    this.filterStudents(e.target.value);
+                });
+
+                document.getElementById('teacher-search').addEventListener('input', (e) => {
+                    this.filterTeachers(e.target.value);
+                });
+
+                // Пагинация
+                document.querySelectorAll('.page-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.page-btn').forEach(b => {
+                            b.classList.remove('active');
+                        });
+                        btn.classList.add('active');
+                        // Здесь можно добавить загрузку данных для страницы
+                    });
+                });
+            }
+
+            showSection(sectionId) {
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(`${sectionId}-section`).classList.add('active');
+            }
+
+            showModal(modalId) {
+                document.getElementById(modalId).classList.add('active');
+            }
+
+            hideAllModals() {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+
+            loadStudents() {
+                const students = [
+                    {
+                        name: "Иванов Петр",
+                        email: "ivanov@example.com",
+                        department: "Фортепиано",
+                        year: "3 год",
+                        grade: "4.5",
+                        status: "Активные"
+                    },
+                    {
+                        name: "Сидорова Анна",
+                        email: "sidorova@example.com",
+                        department: "Струнные",
+                        year: "2 год",
+                        grade: "4.2",
+                        status: "Активные"
+                    },
+                    {
+                        name: "Петров Дмитрий",
+                        email: "petrov@example.com",
+                        department: "Духовые",
+                        year: "1 год",
+                        grade: "4.0",
+                        status: "Активные"
+                    },
+                    {
+                        name: "Смирнова Елена",
+                        email: "smirnova@example.com",
+                        department: "Ударные",
+                        year: "4 год",
+                        grade: "4.3",
+                        status: "Активные"
+                    },
+                    {
+                        name: "Кузнецов Артем",
+                        email: "kuznetsov@example.com",
+                        department: "Теория музыки",
+                        year: "5 год",
+                        grade: "4.7",
+                        status: "Активные"
+                    }
+                ];
+
+                const tbody = document.getElementById('students-table-body');
+                tbody.innerHTML = '';
+
+                students.forEach(student => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <div class="user-info-cell">
+                                <div class="avatar">${student.name.split(' ').map(n => n[0]).join('')}</div>
+                                <div class="user-details">
+                                    <span class="user-name">${student.name}</span>
+                                    <span class="user-email">${student.email}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${student.department}</td>
+                        <td>${student.year}</td>
+                        <td>${student.grade}</td>
+                        <td><span class="badge badge-success">${student.status}</span></td>
+                        <td>
+                            <button class="action-btn" style="padding: 5px 10px; font-size: 12px;">Редактировать</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+
+            loadTeachers() {
+                const teachers = [
+                    {
+                        name: "Петрова Ирина",
+                        email: "petrova@example.com",
+                        department: "Фортепиано",
+                        specialization: "Классическое фортепиано",
+                        students: 15,
+                        status: "Активные"
+                    },
+                    {
+                        name: "Сидоров Алексей",
+                        email: "sidorov@example.com",
+                        department: "Струнные",
+                        specialization: "Скрипка, альт",
+                        students: 12,
+                        status: "Активные"
+                    },
+                    {
+                        name: "Козлова Мария",
+                        email: "kozlova@example.com",
+                        department: "Духовые",
+                        specialization: "Флейта, кларнет",
+                        students: 8,
+                        status: "Активные"
+                    },
+                    {
+                        name: "Васильев Денис",
+                        email: "vasiliev@example.com",
+                        department: "Ударные",
+                        specialization: "Ударная установка",
+                        students: 5,
+                        status: "Активные"
+                    },
+                    {
+                        name: "Николаева Ольга",
+                        email: "nikolaeva@example.com",
+                        department: "Теория музыки",
+                        specialization: "Сольфеджио, гармония",
+                        students: 20,
+                        status: "Активные"
+                    }
+                ];
+
+                const tbody = document.getElementById('teachers-table-body');
+                tbody.innerHTML = '';
+
+                teachers.forEach(teacher => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <div class="user-info-cell">
+                                <div class="avatar">${teacher.name.split(' ').map(n => n[0]).join('')}</div>
+                                <div class="user-details">
+                                    <span class="user-name">${teacher.name}</span>
+                                    <span class="user-email">${teacher.email}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${teacher.department}</td>
+                        <td>${teacher.specialization}</td>
+                        <td>${teacher.students}</td>
+                        <td><span class="badge badge-success">${teacher.status}</span></td>
+                        <td>
+                            <button class="action-btn" style="padding: 5px 10px; font-size: 12px;">Редактировать</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+
+            filterStudents(query) {
+                const rows = document.querySelectorAll('#students-table-body tr');
+                const lowerQuery = query.toLowerCase();
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(lowerQuery) ? '' : 'none';
+                });
+            }
+
+            filterTeachers(query) {
+                const rows = document.querySelectorAll('#teachers-table-body tr');
+                const lowerQuery = query.toLowerCase();
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(lowerQuery) ? '' : 'none';
+                });
+            }
+
+            addStudent() {
+                const fullName = document.getElementById('student-fullname').value;
+                const email = document.getElementById('student-email').value;
+                const phone = document.getElementById('student-phone').value;
+                const birthdate = document.getElementById('student-birthdate').value;
+                const department = document.getElementById('student-dept').value;
+                const year = document.getElementById('student-year-select').value;
+                
+                // Здесь можно добавить логику сохранения студента
+                console.log('Добавлен новый студент:', { fullName, email, phone, birthdate, department, year });
+                
+                // Обновляем список студентов
+                this.loadStudents();
+            }
+
+            addTeacher() {
+                const fullName = document.getElementById('teacher-fullname').value;
+                const email = document.getElementById('teacher-email').value;
+                const phone = document.getElementById('teacher-phone').value;
+                const department = document.getElementById('teacher-dept').value;
+                const specialization = document.getElementById('teacher-specialization').value;
+                const experience = document.getElementById('teacher-experience-input').value;
+                
+                // Здесь можно добавить логику сохранения преподавателя
+                console.log('Добавлен новый преподаватель:', { fullName, email, phone, department, specialization, experience });
+                
+                // Обновляем список преподавателей
+                this.loadTeachers();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            new DirectorDashboard();
+        });
+    </script>
+</body>
+</html>

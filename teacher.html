@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МузШкола - Преподаватель</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="app-container">
+        <aside class="piano-menu">
+            <div class="logo">
+                <span class="logo-note">♫</span>
+                <h1>Муз<span>Школа</span></h1>
+            </div>
+            
+            <nav>
+                <ul class="piano-keys">
+                    <li class="white-key active" data-section="students">
+                        <span>Мои ученики</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="add-grade">
+                        <span>Выставить оценку</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="white-key" data-section="add-homework">
+                        <span>Добавить задание</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="black-key"></li>
+                    <li class="white-key" data-section="schedule">
+                        <span>Расписание</span>
+                        <div class="key-indicator"></div>
+                    </li>
+                    <li class="white-key" data-section="news">
+                         <span>Новости</span>
+                        <div class="key-indicator"></div>
+                    </li>      
+                    <div class="user-profile">
+                        <div class="avatar" id="user-avatar">ПИ</div>
+                        <div class="user-info">
+                            <span class="username" id="display-username">Петр Иванов</span>
+                            <span class="user-role" id="display-role">Преподаватель • Фортепиано</span>
+                        </div>
+                    </div>
+        </aside>
+
+        <main class="content-area">
+            <header class="content-header">
+                <h2 id="section-title">Мои ученики</h2>
+                <div class="year-selector">
+                    <select id="year-select">
+                        <option value="all">Все года</option>
+                        <option value="1">1 год</option>
+                        <option value="2">2 год</option>
+                        <option value="3">3 год</option>
+                        <option value="4">4 год</option>
+                        <option value="5">5 год</option>
+                        <option value="6">6 год</option>
+                        <option value="7">7 год</option>
+                    </select>
+                </div>
+            </header>
+
+            <div class="content-section" id="students-section">
+                <div class="students-list">
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+                                <th>Ученик</th>
+                                <th>Год обучения</th>
+                                <th>Последняя оценка</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar">ИК</div>
+                                        <div class="student-name">Иван Ковалев</div>
+                                    </div>
+                                </td>
+                                <td>3 год</td>
+                                <td>
+                                    <span class="grade-badge grade-5">5</span>
+                                    <span class="grade-subject">Сольфеджио</span>
+                                </td>
+                                <td>
+                                    <button class="action-btn grade-btn">Оценка</button>
+                                    <button class="action-btn homework-btn">Задание</button>
+                                </td>
+                            </tr>
+                            <!-- Другие ученики -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="add-grade-section">
+                <div class="add-grade-form">
+                    <h3>Выставить оценку</h3>
+                    <form id="grade-form">
+                        <div class="form-group">
+                            <label for="grade-student">Ученик</label>
+                            <select id="grade-student">
+                                <option value="1">Иван Ковалев (3 год)</option>
+                                <option value="2">Елена Смирнова (2 год)</option>
+                                <option value="3">Алексей Петров (4 год)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="grade-subject">Предмет</label>
+                            <select id="grade-subject">
+                                <option value="1">Сольфеджио</option>
+                                <option value="2">Специальность (фортепиано)</option>
+                                <option value="3">Музыкальная литература</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="grade-value">Оценка</label>
+                            <div class="grade-options">
+                                <label class="grade-option">
+                                    <input type="radio" name="grade" value="5">
+                                    <span class="grade-badge grade-5">5</span>
+                                </label>
+                                <label class="grade-option">
+                                    <input type="radio" name="grade" value="4">
+                                    <span class="grade-badge grade-4">4</span>
+                                </label>
+                                <label class="grade-option">
+                                    <input type="radio" name="grade" value="3">
+                                    <span class="grade-badge grade-3">3</span>
+                                </label>
+                                <label class="grade-option">
+                                    <input type="radio" name="grade" value="2">
+                                    <span class="grade-badge grade-2">2</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="grade-comment">Комментарий</label>
+                            <textarea id="grade-comment" rows="3"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Сохранить оценку</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="content-section hidden" id="add-homework-section">
+                <div class="add-homework-form">
+                    <h3>Добавить домашнее задание</h3>
+                    <form id="homework-form">
+                        <div class="form-group">
+                            <label for="hw-student">Ученик/Группа</label>
+                            <select id="hw-student">
+                                <option value="all">Вся группа (3 год)</option>
+                                <option value="1">Иван Ковалев</option>
+                                <option value="2">Елена Смирнова</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hw-subject">Предмет</label>
+                            <select id="hw-subject">
+                                <option value="1">Сольфеджио</option>
+                                <option value="2">Специальность (фортепиано)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hw-title">Тема задания</label>
+                            <input type="text" id="hw-title" placeholder="Введите тему задания">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hw-description">Описание</label>
+                            <textarea id="hw-description" rows="5" placeholder="Подробное описание задания..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hw-deadline">Срок сдачи</label>
+                            <input type="date" id="hw-deadline">
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Добавить задание</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Добавьте это перед закрывающим тегом </main> -->
+<div class="content-section hidden" id="news-section">
+    <div class="news-management">
+        <h3>Управление новостями</h3>
+        
+        <div class="news-toolbar">
+            <button id="add-news-btn" class="action-btn add-btn">Добавить новость</button>
+            <div class="news-search">
+                <input type="text" id="news-search" placeholder="Поиск новостей...">
+                <button class="search-btn">Найти</button>
+            </div>
+        </div>
+        
+        <table class="news-table">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Заголовок</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody id="news-table-body">
+                <!-- Данные будут загружаться через JS -->
+            </tbody>
+        </table>
+        
+        <div class="pagination">
+            <button class="page-btn">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+        </div>
+       <!-- Модальное окно для добавления новости -->
+       <div id="news-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Добавить новость</h3>
+            <form id="news-form">
+                <div class="form-group">
+                    <label for="news-title">Заголовок</label>
+                    <input type="text" id="news-title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="news-content">Содержание</label>
+                    <textarea id="news-content" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="news-status">Статус</label>
+                    <select id="news-status">
+                        <option value="draft">Черновик</option>
+                        <option value="published">Опубликовано</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="news-files">Прикрепить файлы</label>
+                    <input type="file" id="news-files" multiple>
+                    <div id="files-preview" class="files-preview"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn">Сохранить</button>
+            </form>
+        </div>
+    </div> 
+    </div>
+</div>
+        </main>
+    </div>
+
+    <script src="teacher.js"></script>
+</body>
+</html>
