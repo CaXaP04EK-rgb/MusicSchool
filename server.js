@@ -105,7 +105,7 @@ app.post('/api/news', upload.array('files'), async (req, res) => {
     }
 });
 const db = mysql.createConnection({
-  host: 'IP_СЕРВЕРА_БД', // тот самый айпишник
+  host: 'IP_СЕРВЕРА_БД', 
   user: 'логин_БД',
   password: 'пароль_БД',
   database: 'название_БД'
